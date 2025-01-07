@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { PokemonService } from 'src/app/services/pokemons.service';
+import { Pokemon } from 'src/app/models/pokemon';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -7,18 +9,26 @@ import { PokemonService } from 'src/app/services/pokemons.service';
   styleUrls: ['./pokemon-list.component.scss']
 })
 export class PokemonListComponent implements OnInit {
-  pokemons: any[] = [];
-  filteredPokemons: any[] = [];
-  pokemonTypes: any[] = [];
+  pokemons: Pokemon[] = [];
+  filteredPokemons: Pokemon[] = [];
+  pokemonTypes: Pokemon[] = [];
   limit = 20;
   offset = 0;
   currentPage = 1;
 
-  constructor(private pokemonService: PokemonService) {}
+  filterForm: FormGroup;
+
+  constructor(private pokemonService: PokemonService) {
+    this.filterForm = new FormGroup({
+      search: new FormControl(''),
+      type: new FormControl('all')
+    });
+  }
 
   ngOnInit(): void {
     this.fetchPokemons();
     this.fetchPokemonTypes();
+    this.filterForm.valueChanges.subscribe(() => this.applyFilters());
   }
 
   fetchPokemons(): void {
@@ -34,39 +44,39 @@ export class PokemonListComponent implements OnInit {
     });
   }
 
+  applyFilters(): void {
+    const { search, type } = this.filterForm.value;
+
+    let filtered = this.pokemons;
+
+    if (search) {
+      filtered = filtered.filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    if (type !== 'all') {
+      this.pokemonService.getPokemonsByType(type).subscribe((data) => {
+        const typePokemons = data.pokemon.map((p: any) => p.pokemon.name);
+        filtered = filtered.filter((pokemon) => typePokemons.includes(pokemon.name));
+        this.filteredPokemons = filtered;
+      });
+    } else {
+      this.filteredPokemons = filtered;
+    }
+  }
+
   nextPage(): void {
     this.offset += this.limit;
-    this.currentPage++;
+    this.currentPage += 1;
     this.fetchPokemons();
   }
 
   previousPage(): void {
     if (this.offset > 0) {
       this.offset -= this.limit;
-      this.currentPage--;
+      this.currentPage -=1;
       this.fetchPokemons();
-    }
-  }
-
-  filterPokemons(event: Event): void {
-    const searchText = (event.target as HTMLInputElement).value.toLowerCase();
-    this.filteredPokemons = this.pokemons.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(searchText)
-    );
-  }
-
-  filterByType(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    const type = selectElement.value;
-  
-    if (type === 'all') {
-      this.filteredPokemons = this.pokemons;
-    } else {
-      this.pokemonService.getPokemonsByType(type).subscribe((data) => {
-        this.filteredPokemons = data.pokemon.map((p: any) => ({
-          name: p.pokemon.name
-        }));
-      });
     }
   }
 }
