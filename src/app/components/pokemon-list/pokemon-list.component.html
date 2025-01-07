@@ -1,0 +1,30 @@
+<div>
+  <h1>Pokémon List</h1>
+
+  <input
+    type="text"
+    placeholder="Search Pokémon"
+    (input)="filterPokemons($event)"
+  />
+
+  <select (change)="filterByType($event)">
+    <option value="all">All Types</option>
+    <option *ngFor="let type of pokemonTypes" [value]="type.name">
+      {{ type.name }}
+    </option>
+  </select>
+
+  <ul>
+    <li *ngFor="let pokemon of filteredPokemons">
+      {{ pokemon.name }}
+    </li>
+  </ul>
+
+  <div>
+    <button (click)="previousPage()" [disabled]="currentPage === 1">
+      Previous
+    </button>
+    <span>Page {{ currentPage }}</span>
+    <button (click)="nextPage()">Next</button>
+  </div>
+</div>
