@@ -22,4 +22,13 @@ export class PokemonService {
   getPokemonsByType(type: string): Observable<{ pokemon: { pokemon: Pokemon }[] }> {
     return this.http.get<{ pokemon: { pokemon: Pokemon }[] }>(`${this.apiUrl}/type/${type}`);
   }
+
+  getPokemonDetailsByName(name: string){
+    return this.http.get(`${this.apiUrl}/pokemon/${name}`);
+  }
+
+  getPokemonOfficialArtwork(name: string){
+    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${name}.png`;
+  }
+
 }

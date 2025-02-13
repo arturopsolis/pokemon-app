@@ -25,6 +25,7 @@
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let pokemon of filteredPokemons">
       {{ pokemon.name | titlecase }}
+      <button (click)="handlePokemonDetails(pokemon)">Details</button>
     </li>
   </ul>
 
@@ -41,3 +42,8 @@
     <button class="btn btn-primary" (click)="nextPage()">Next</button>
   </div>
 </div>
+
+<app-pokemon-details
+  *ngIf="currentPokemon"
+  [currentPokemon]="currentPokemon"
+></app-pokemon-details>

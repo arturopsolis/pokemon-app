@@ -18,6 +18,8 @@ export class PokemonListComponent implements OnInit {
 
   filterForm: FormGroup;
 
+  currentPokemon: Pokemon | undefined;
+
   constructor(private pokemonService: PokemonService) {
     this.filterForm = new FormGroup({
       search: new FormControl(''),
@@ -78,5 +80,10 @@ export class PokemonListComponent implements OnInit {
       this.currentPage -=1;
       this.fetchPokemons();
     }
+  }
+
+  handlePokemonDetails(pokemon: Pokemon){
+    console.log(pokemon)
+    this.currentPokemon = pokemon;
   }
 }
