@@ -1,8 +1,11 @@
-<div class="container my-4">
-  <h1 class="text-center mb-4">Pokémon List</h1>
+<div class="container my-4" style="max-width: 900px">
+  <app-pokemon-details
+    *ngIf="currentPokemon"
+    [currentPokemon]="currentPokemon"
+  ></app-pokemon-details>
 
   <!-- filters -->
-  <form
+  <!--  <form
     [formGroup]="filterForm"
     class="mb-3 d-flex justify-content-between align-items-center"
   >
@@ -19,15 +22,7 @@
         {{ type.name }}
       </option>
     </select>
-  </form>
-
-  <!-- list -->
-  <ul class="list-group">
-    <li class="list-group-item" *ngFor="let pokemon of filteredPokemons">
-      {{ pokemon.name | titlecase }}
-      <button (click)="handlePokemonDetails(pokemon)">Details</button>
-    </li>
-  </ul>
+  </form> -->
 
   <!-- pagination controls -->
   <div class="mt-4 d-flex justify-content-between align-items-center">
@@ -41,9 +36,17 @@
     <span>Page {{ currentPage }}</span>
     <button class="btn btn-primary" (click)="nextPage()">Next</button>
   </div>
-</div>
 
-<app-pokemon-details
-  *ngIf="currentPokemon"
-  [currentPokemon]="currentPokemon"
-></app-pokemon-details>
+  <!-- list -->
+  <div class="pokemos-list-container">
+    <ul class="pokemos-list list-group mt-3">
+      <li
+        (click)="handlePokemonDetails(pokemon)"
+        class="list-group-item"
+        *ngFor="let pokemon of filteredPokemons"
+      >
+        {{ pokemon.name | titlecase }}
+      </li>
+    </ul>
+  </div>
+</div>

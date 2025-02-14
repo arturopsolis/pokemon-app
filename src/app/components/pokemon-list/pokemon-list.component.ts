@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PokemonService } from 'src/app/services/pokemons.service';
-import { Pokemon } from 'src/app/models/pokemon';
+import { Pokemon, PokemonDetails } from 'src/app/models/pokemon';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -12,7 +12,7 @@ export class PokemonListComponent implements OnInit {
   pokemons: Pokemon[] = [];
   filteredPokemons: Pokemon[] = [];
   pokemonTypes: Pokemon[] = [];
-  limit = 20;
+  limit = 151;
   offset = 0;
   currentPage = 1;
 
@@ -83,7 +83,8 @@ export class PokemonListComponent implements OnInit {
   }
 
   handlePokemonDetails(pokemon: Pokemon){
-    console.log(pokemon)
     this.currentPokemon = pokemon;
   }
+
+
 }

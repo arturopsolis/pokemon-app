@@ -1,0 +1,19 @@
+
+
+.pokemos-list-container{
+    height: 320px;
+    overflow: auto;
+    margin-top: 15px;
+}
+
+
+
+.pokemos-list li{
+    display: flex;
+    justify-content: space-between;
+
+    &:hover{
+        cursor: pointer;
+        background-color:lavender;
+    }
+}

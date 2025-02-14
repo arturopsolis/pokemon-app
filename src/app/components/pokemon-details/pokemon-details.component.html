@@ -1,4 +1,49 @@
-<h3>{{ currentPokemon }}</h3>
-<p>Aqui va le current pokemon name</p>
+<div class="pokemon-container d-flex gap-3">
+  <div>
+    <img [src]="currentPokemonOfficialArt" alt="" style="max-width: 240px" />
+    <h1 style="color: #ccd2dd">#{{ currentPokemonId }}</h1>
+  </div>
 
-<img [src]="currentPokemonOfficialArt" alt="" />
+  <div>
+    <h1
+      [style.color]="colorMap[currentPokemonColor]"
+      style="font-weight: bolder"
+    >
+      {{ currentPokemon?.name | uppercase }}
+    </h1>
+
+    <p>{{ currentPokemonDescription }}</p>
+
+    <div class="d-flex gap-3">
+      <div>
+        <h5>Height</h5>
+        <p>2' 04''</p>
+      </div>
+
+      <div>
+        <h5>Weight</h5>
+        <p>undefined</p>
+      </div>
+    </div>
+
+    <div class="d-flex gap-3">
+      <div>
+        <h5>Main Type</h5>
+        <p>undefined</p>
+      </div>
+      <div>
+        <h5>Main Ability</h5>
+        <p>undefined</p>
+      </div>
+    </div>
+    <div class="d-flex">
+      <audio [src]="currentPokemonDetails?.cries?.latest" controls>
+        Your browser does not support the <code>audio</code> element.
+      </audio>
+      <img
+        [src]="currentPokemonSpritesFrontDefault"
+        style="height: 60px; width: auto"
+      />
+    </div>
+  </div>
+</div>
