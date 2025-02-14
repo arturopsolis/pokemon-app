@@ -2,15 +2,15 @@
   <img [src]="currentPokemonOfficialArt" alt="" class="pokemon-officcial-art" />
 
   <div>
-    <div class="d-flex justify-content-between gap-3">
-      <h1
-        [style.color]="colorMap[currentPokemonColor]"
-        style="font-weight: bolder"
-      >
-        {{ currentPokemon?.name | uppercase }}
-      </h1>
-      <h2 style="color: #ccd2dd">#{{ currentPokemonId }}</h2>
-    </div>
+    <h2 style="color: #ccd2dd">#{{ currentPokemonId }}</h2>
+
+    <h1
+      [style.color]="colorMap[currentPokemonColor]"
+      style="font-weight: bolder"
+    >
+      {{ currentPokemon?.name | uppercase }}
+    </h1>
+
     <p style="margin-bottom: 30px">{{ currentPokemonDescription }}</p>
 
     <div class="d-flex gap-3">

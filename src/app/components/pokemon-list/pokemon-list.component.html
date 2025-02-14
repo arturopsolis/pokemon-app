@@ -12,10 +12,12 @@
         (click)="previousPage()"
         [disabled]="currentPage === 1"
       >
-        Previous
+        <i class="bi bi-arrow-left"></i>
       </button>
       <span>Generation {{ currentPage }}</span>
-      <button class="btn btn-warning" (click)="nextPage()">Next</button>
+      <button class="btn btn-warning" (click)="nextPage()">
+        <i class="bi bi-arrow-right"></i>
+      </button>
     </div>
 
     <!-- filters -->
@@ -61,7 +63,13 @@
     </div>
   </div>
 
-  <button *ngIf="currentPokemon" (click)="cleanCurrentPokemon()">X</button>
+  <button
+    *ngIf="currentPokemon"
+    (click)="cleanCurrentPokemon()"
+    class="button-back"
+  >
+    <i class="bi bi-arrow-left"></i>
+  </button>
   <app-pokemon-details
     *ngIf="currentPokemon"
     [currentPokemon]="currentPokemon"
