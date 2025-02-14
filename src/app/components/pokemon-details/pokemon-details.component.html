@@ -1,18 +1,17 @@
-<div class="pokemon-container d-flex gap-3">
-  <div>
-    <img [src]="currentPokemonOfficialArt" alt="" style="max-width: 240px" />
-    <h1 style="color: #ccd2dd">#{{ currentPokemonId }}</h1>
-  </div>
+<div class="pokemon-container">
+  <img [src]="currentPokemonOfficialArt" alt="" class="pokemon-officcial-art" />
 
   <div>
-    <h1
-      [style.color]="colorMap[currentPokemonColor]"
-      style="font-weight: bolder"
-    >
-      {{ currentPokemon?.name | uppercase }}
-    </h1>
-
-    <p>{{ currentPokemonDescription }}</p>
+    <div class="d-flex justify-content-between gap-3">
+      <h1
+        [style.color]="colorMap[currentPokemonColor]"
+        style="font-weight: bolder"
+      >
+        {{ currentPokemon?.name | uppercase }}
+      </h1>
+      <h2 style="color: #ccd2dd">#{{ currentPokemonId }}</h2>
+    </div>
+    <p style="margin-bottom: 30px">{{ currentPokemonDescription }}</p>
 
     <div class="d-flex gap-3">
       <div>
@@ -36,14 +35,8 @@
         <p>undefined</p>
       </div>
     </div>
-    <div class="d-flex">
-      <audio [src]="currentPokemonDetails?.cries?.latest" controls>
-        Your browser does not support the <code>audio</code> element.
-      </audio>
-      <img
-        [src]="currentPokemonSpritesFrontDefault"
-        style="height: 60px; width: auto"
-      />
-    </div>
+    <audio [src]="currentPokemonDetails?.cries?.latest" controls>
+      Your browser does not support the <code>audio</code> element.
+    </audio>
   </div>
 </div>

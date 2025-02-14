@@ -1,7 +1,7 @@
 
 
 .pokemos-list-container{
-    height: 320px;
+    height: 520px;
     overflow: auto;
     margin-top: 15px;
 }
@@ -11,6 +11,18 @@
 .pokemos-list li{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding:0;
+
+    .pokemon-sprite{
+        width: 96px;
+        height: 96px;
+    }
+
+    p{
+        padding: 0;
+        margin:0;
+    }
 
     &:hover{
         cursor: pointer;

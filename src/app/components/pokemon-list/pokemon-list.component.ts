@@ -18,7 +18,7 @@ export class PokemonListComponent implements OnInit {
 
   filterForm: FormGroup;
 
-  currentPokemon: Pokemon | undefined;
+  currentPokemon: Pokemon | undefined | null;
 
   constructor(private pokemonService: PokemonService) {
     this.filterForm = new FormGroup({
@@ -84,6 +84,22 @@ export class PokemonListComponent implements OnInit {
 
   handlePokemonDetails(pokemon: Pokemon){
     this.currentPokemon = pokemon;
+  }
+
+  extractPokemonId(url: string) {
+    const parts = url.split('/'); 
+    return +parts[parts.length - 2];
+  }
+
+  pokemonSpriteDefault(url: string){
+    let imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
+    let id = this.extractPokemonId(url);
+    return `${imageUrl}${id}.png`;
+
+  }
+
+  cleanCurrentPokemon(){
+    this.currentPokemon = null;
   }
 
 
