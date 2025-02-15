@@ -13,28 +13,29 @@
 
     <p style="margin-bottom: 30px">{{ currentPokemonDescription }}</p>
 
-    <div class="d-flex gap-3">
-      <div>
-        <h5>Height</h5>
-        <p>2' 04''</p>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <h6>Height</h6>
+          <p>{{ currentPokemonHeight / 10 }}m</p>
+        </div>
+        <div class="col-6">
+          <h6>Weight</h6>
+          <p>{{ currentPokemonWeight / 10 }}kg</p>
+        </div>
       </div>
-
-      <div>
-        <h5>Weight</h5>
-        <p>undefined</p>
+      <div class="row">
+        <div class="col-6">
+          <h6>Main Type</h6>
+          <p>{{ currentPokemonMainType }}</p>
+        </div>
+        <div class="col-6">
+          <h6>Main Ability</h6>
+          <p>{{ currentPokemonMainAbility }}</p>
+        </div>
       </div>
     </div>
 
-    <div class="d-flex gap-3">
-      <div>
-        <h5>Main Type</h5>
-        <p>undefined</p>
-      </div>
-      <div>
-        <h5>Main Ability</h5>
-        <p>undefined</p>
-      </div>
-    </div>
     <audio [src]="currentPokemonDetails?.cries?.latest" controls>
       Your browser does not support the <code>audio</code> element.
     </audio>

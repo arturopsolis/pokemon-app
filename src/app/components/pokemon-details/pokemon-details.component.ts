@@ -31,7 +31,12 @@ export class PokemonDetailsComponent {
   currentPokemonId: number = 0;
   currentPokemonDescription: string = "";
   currentPokemonColor: string = "";
+  currentPokemonHeight: number = 0;
+  currentPokemonWeight: number = 0;
   currentPokemonSpritesFrontDefault: string = "";
+  currentPokemonMainType: string = '';
+  currentPokemonMainAbility: string = '';
+
 
   constructor(private pokemonServie: PokemonService){}
 
@@ -47,6 +52,10 @@ export class PokemonDetailsComponent {
       next: (data)=>{
         this.currentPokemonDetails = data;
         this.currentPokemonSpritesFrontDefault = data.sprites.front_default;
+        this.currentPokemonHeight = data.height;
+        this.currentPokemonWeight = data.weight;
+        this.currentPokemonMainType = data.types[0].type.name;
+        this.currentPokemonMainAbility = data.abilities[0].ability.name;
         console.log("this.currentPokemon: ", this.currentPokemonDetails);
       },
       error: (err)=>{

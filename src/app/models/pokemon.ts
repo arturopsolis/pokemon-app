@@ -10,11 +10,19 @@ export interface Pokemon {
     forms: PokemonForm[];
     game_indices: GameIndex[];
     height: number;
+    weight: number;
     held_items: any[]; // Puedes definir mejor si hay datos aquí
     id: number;
     sprites: {
       front_default: string;
     }
+    types: Type[];    
+    
+  }
+
+  export interface Type{
+    slot: number;
+    type: NamedAPIResource;
   }
   
   export interface AbilitySlot {
@@ -44,7 +52,7 @@ export interface Pokemon {
   }
 
   export interface PokemonSpecies {
-    color: Pokemon;
+    color: NamedAPIResource;
     flavor_text_entries: {
       flavor_text: string;
       language: { name: string };
