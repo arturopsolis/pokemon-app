@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Pokemon, PokemonDetails } from 'src/app/models/pokemon';
+import { Pokemon, PokemonDetails, Type } from 'src/app/models/pokemon';
 import { PokemonService } from 'src/app/services/pokemons.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { PokemonService } from 'src/app/services/pokemons.service';
 export class PokemonDetailsComponent {
 
   @Input() currentPokemon: Pokemon | undefined;
+  private audio = new Audio();
 
   colorMap: { [key: string]: string } = {
     black: "#212121",
@@ -24,9 +25,7 @@ export class PokemonDetailsComponent {
     yellow: "#f6c14a"
   };
 
-  
-
-  currentPokemonDetails: PokemonDetails | undefined;
+  currentPokemonCompleteDetails: PokemonDetails | undefined;
   currentPokemonOfficialArt: string = ""
   currentPokemonId: number = 0;
   currentPokemonDescription: string = "";
@@ -34,29 +33,28 @@ export class PokemonDetailsComponent {
   currentPokemonHeight: number = 0;
   currentPokemonWeight: number = 0;
   currentPokemonSpritesFrontDefault: string = "";
+  currentPokemonTypes: Type[] = [];
   currentPokemonMainType: string = '';
   currentPokemonMainAbility: string = '';
-
+  currentPokemonCriesUrl: string = '';
 
   constructor(private pokemonServie: PokemonService){}
 
-
   ngOnChanges(){
-
-    console.log("currentPokemon: ", this.currentPokemon)
     
     this.currentPokemonId = this.extractPokemonId(this.currentPokemon?.url);
     this.currentPokemonOfficialArt = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${this.currentPokemonId}.png`
     
     this.pokemonServie.getPokemonDetailsByName(this.currentPokemon?.name).subscribe({
       next: (data)=>{
-        this.currentPokemonDetails = data;
+        this.currentPokemonCompleteDetails = data;
         this.currentPokemonSpritesFrontDefault = data.sprites.front_default;
         this.currentPokemonHeight = data.height;
         this.currentPokemonWeight = data.weight;
+        this.currentPokemonTypes = data.types;
         this.currentPokemonMainType = data.types[0].type.name;
         this.currentPokemonMainAbility = data.abilities[0].ability.name;
-        console.log("this.currentPokemon: ", this.currentPokemonDetails);
+        this.currentPokemonCriesUrl = data.cries.latest;
       },
       error: (err)=>{
         console.log(err)
@@ -65,7 +63,6 @@ export class PokemonDetailsComponent {
 
     this.pokemonServie.getPokemonDescriptionByName(this.currentPokemon?.name).subscribe({
       next: (data) =>{
-        console.log("getPokemonDescriptionByName: ", data)
         this.currentPokemonDescription = data.flavor_text_entries[0].flavor_text;
         this.currentPokemonColor = data.color.name;
       },
@@ -73,12 +70,21 @@ export class PokemonDetailsComponent {
         console.log(err)
       }
     })
-
   }
 
   extractPokemonId(url: any) {
     const parts = url.split('/'); 
     return +parts[parts.length - 2];
+  }
+
+  playAudio(): void {
+    if (this.currentPokemonCriesUrl) {
+      this.audio.src = this.currentPokemonCriesUrl;
+      this.audio.load();
+      this.audio.play();
+    } else {
+      console.warn('No audio URL provided');
+    }
   }
 
 }

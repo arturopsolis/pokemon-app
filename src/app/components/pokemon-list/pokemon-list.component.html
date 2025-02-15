@@ -1,4 +1,4 @@
-<div class="container my-4" style="max-width: 900px">
+<div class="container" style="max-width: 900px">
   <div *ngIf="!currentPokemon">
     <img
       src="../../../assets/pokemon_logo.jpg"
@@ -14,7 +14,7 @@
       >
         <i class="bi bi-arrow-left"></i>
       </button>
-      <span>Generation {{ currentPage }}</span>
+      <span style="font-weight: bolder">GEN {{ currentPage }}</span>
       <button class="btn btn-warning" (click)="nextPage()">
         <i class="bi bi-arrow-right"></i>
       </button>
@@ -29,10 +29,10 @@
         type="text"
         class="form-control w-50"
         formControlName="search"
-        placeholder="Search Pokémon"
+        placeholder="Filter by name"
       />
 
-      <select class="form-select w-25" formControlName="type">
+      <select class="form-select" formControlName="type" style="width: 35%">
         <option value="all">All Types</option>
         <option *ngFor="let type of pokemonTypes" [value]="type.name">
           {{ type.name }}

@@ -1,7 +1,16 @@
-<div class="pokemon-container">
-  <img [src]="currentPokemonOfficialArt" alt="" class="pokemon-officcial-art" />
+<div class="container pokemon-container">
+  <img [src]="currentPokemonOfficialArt" alt="" class="pokemon-official-art" />
 
-  <div>
+  <ul class="pokemon-types">
+    <li
+      *ngFor="let type of currentPokemonTypes"
+      [ngClass]="'type type-' + type.type.name"
+    >
+      {{ type.type.name }}
+    </li>
+  </ul>
+
+  <div style="background-color: #fff">
     <h2 style="color: #ccd2dd">#{{ currentPokemonId }}</h2>
 
     <h1
@@ -11,33 +20,40 @@
       {{ currentPokemon?.name | uppercase }}
     </h1>
 
-    <p style="margin-bottom: 30px">{{ currentPokemonDescription }}</p>
+    <p class="mb-4">{{ currentPokemonDescription }}</p>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-6">
-          <h6>Height</h6>
-          <p>{{ currentPokemonHeight / 10 }}m</p>
-        </div>
-        <div class="col-6">
-          <h6>Weight</h6>
-          <p>{{ currentPokemonWeight / 10 }}kg</p>
-        </div>
+    <div class="row">
+      <div class="col-6">
+        <h6 [style.color]="colorMap[currentPokemonColor]">Height</h6>
+        <p>{{ currentPokemonHeight / 10 }}m</p>
       </div>
-      <div class="row">
-        <div class="col-6">
-          <h6>Main Type</h6>
-          <p>{{ currentPokemonMainType }}</p>
-        </div>
-        <div class="col-6">
-          <h6>Main Ability</h6>
-          <p>{{ currentPokemonMainAbility }}</p>
-        </div>
+      <div class="col-6">
+        <h6 [style.color]="colorMap[currentPokemonColor]">Weight</h6>
+        <p>{{ currentPokemonWeight / 10 }}kg</p>
       </div>
     </div>
-
-    <audio [src]="currentPokemonDetails?.cries?.latest" controls>
-      Your browser does not support the <code>audio</code> element.
-    </audio>
+    <div class="row">
+      <div class="col-6">
+        <h6 [style.color]="colorMap[currentPokemonColor]">Main Type</h6>
+        <p>{{ currentPokemonMainType | titlecase }}</p>
+      </div>
+      <div class="col-6">
+        <h6 [style.color]="colorMap[currentPokemonColor]">Main Ability</h6>
+        <p>{{ currentPokemonMainAbility | titlecase }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button
+          (click)="playAudio()"
+          class="mt-4 btn"
+          [style.background]="colorMap[currentPokemonColor]"
+          style="color: #fff"
+        >
+          <i class="bi bi-volume-up"></i>
+          Play Cry
+        </button>
+      </div>
+    </div>
   </div>
 </div>
