@@ -1,4 +1,6 @@
 <div class="container pokemon-container">
+  <div [ngClass]="'circle type-' + currentPokemonMainType"></div>
+
   <div class="pokemon-official-art">
     <img [src]="currentPokemonOfficialArt" alt="" />
   </div>
@@ -14,7 +16,7 @@
         *ngFor="let type of currentPokemonTypes"
         [ngClass]="'type type-' + type.type.name"
       >
-        {{ type.type.name }}
+        {{ type.type.name | titlecase }}
       </li>
     </ul>
 
@@ -22,21 +24,21 @@
 
     <div class="row">
       <div class="col-6">
-        <h6>Height</h6>
+        <h6 [ngClass]="'type-' + currentPokemonMainType">Height</h6>
         <p>{{ currentPokemonHeight / 10 }}m</p>
       </div>
       <div class="col-6">
-        <h6>Weight</h6>
+        <h6 [ngClass]="'type-' + currentPokemonMainType">Weight</h6>
         <p>{{ currentPokemonWeight / 10 }}kg</p>
       </div>
     </div>
     <div class="row">
       <div class="col-6">
-        <h6>Main Type</h6>
+        <h6 [ngClass]="'type-' + currentPokemonMainType">Main Type</h6>
         <p>{{ currentPokemonMainType | titlecase }}</p>
       </div>
       <div class="col-6">
-        <h6>Main Ability</h6>
+        <h6 [ngClass]="'type-' + currentPokemonMainType">Main Ability</h6>
         <p>{{ currentPokemonMainAbility | titlecase }}</p>
       </div>
     </div>
@@ -44,11 +46,10 @@
       <div class="col-12">
         <button
           (click)="playAudio()"
-          class="mt-4 btn"
-          [style.background]="colorMap[currentPokemonColor]"
+          [ngClass]="'mt-4 btn-play type-' + currentPokemonMainType"
           style="color: #fff"
         >
-          <i class="bi bi-volume-up"></i>
+          <i class="bi bi-play"></i>
           Play Cry
         </button>
       </div>

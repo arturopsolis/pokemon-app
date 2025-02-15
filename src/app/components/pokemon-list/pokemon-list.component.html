@@ -63,13 +63,16 @@
     </div>
   </div>
 
-  <button
+  <div
     *ngIf="currentPokemon"
-    (click)="cleanCurrentPokemon()"
-    class="button-back"
+    class="header-details-nav d-flex align-items-center justify-content-between"
   >
-    <i class="bi bi-arrow-left"></i>
-  </button>
+    <button (click)="cleanCurrentPokemon()" class="button-back">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <img src="../../../assets/icon-pokeball.png" class="pokeball-icon" />
+  </div>
+
   <app-pokemon-details
     *ngIf="currentPokemon"
     [currentPokemon]="currentPokemon"
