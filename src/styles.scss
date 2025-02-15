@@ -2,6 +2,11 @@
 @use "sass:math"; // Importar módulo de matemáticas de SASS
 
 
+body, html{
+    background-color: #F8F9FA !important;
+}
+
+
 .pokemon-logo{
     display: block;
     position: relative;
@@ -21,16 +26,13 @@
 }
 
 
-
-
-// Estilos de la lista de tipos
 ul.pokemon-types {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
     list-style: none;
-    margin: 15px 0;
+    margin: 5px 0 15px 0;
     padding: 0;
 
     li.type {

@@ -1,44 +1,40 @@
 <div class="container pokemon-container">
   <img [src]="currentPokemonOfficialArt" alt="" class="pokemon-official-art" />
 
-  <ul class="pokemon-types">
-    <li
-      *ngFor="let type of currentPokemonTypes"
-      [ngClass]="'type type-' + type.type.name"
-    >
-      {{ type.type.name }}
-    </li>
-  </ul>
-
-  <div style="background-color: #fff">
-    <h2 style="color: #ccd2dd">#{{ currentPokemonId }}</h2>
-
-    <h1
-      [style.color]="colorMap[currentPokemonColor]"
-      style="font-weight: bolder"
-    >
+  <div>
+    <h1 style="font-weight: bolder" class="mt-3 mb-0">
+      <span style="color: #ccd2dd">#{{ currentPokemonId }}</span>
       {{ currentPokemon?.name | uppercase }}
     </h1>
 
-    <p class="mb-4">{{ currentPokemonDescription }}</p>
+    <ul class="pokemon-types">
+      <li
+        *ngFor="let type of currentPokemonTypes"
+        [ngClass]="'type type-' + type.type.name"
+      >
+        {{ type.type.name }}
+      </li>
+    </ul>
+
+    <p class="mb-5">{{ currentPokemonDescription }}</p>
 
     <div class="row">
       <div class="col-6">
-        <h6 [style.color]="colorMap[currentPokemonColor]">Height</h6>
+        <h6>Height</h6>
         <p>{{ currentPokemonHeight / 10 }}m</p>
       </div>
       <div class="col-6">
-        <h6 [style.color]="colorMap[currentPokemonColor]">Weight</h6>
+        <h6>Weight</h6>
         <p>{{ currentPokemonWeight / 10 }}kg</p>
       </div>
     </div>
     <div class="row">
       <div class="col-6">
-        <h6 [style.color]="colorMap[currentPokemonColor]">Main Type</h6>
+        <h6>Main Type</h6>
         <p>{{ currentPokemonMainType | titlecase }}</p>
       </div>
       <div class="col-6">
-        <h6 [style.color]="colorMap[currentPokemonColor]">Main Ability</h6>
+        <h6>Main Ability</h6>
         <p>{{ currentPokemonMainAbility | titlecase }}</p>
       </div>
     </div>
