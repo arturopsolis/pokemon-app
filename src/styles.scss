@@ -3,7 +3,7 @@
 
 
 body, html{
-    background-color: #F8F9FA !important;
+    background-color: #F8F9FA  !important;
 }
 
 
@@ -16,7 +16,14 @@ body, html{
 .pokemon-official-art{
     display: block;
     width: 240px;
+    height: 240px;
     margin: 0 auto;
+    img{
+        display: block;
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
 }
 
 .button-back{
