@@ -12,7 +12,7 @@ export class PokemonListComponent implements OnInit {
   pokemons: Pokemon[] = [];
   filteredPokemons: Pokemon[] = [];
   pokemonTypes: Pokemon[] = [];
-  limit = 151;
+  limit = 1017;
   offset = 0;
   currentPage = 1;
 
