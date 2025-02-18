@@ -28,7 +28,7 @@ export class PokemonDetailsComponent {
   currentPokemonCompleteDetails: PokemonDetails | undefined;
   currentPokemonOfficialArt: string = ""
   currentPokemonId: number = 0;
-  currentPokemonDescription: string = "";
+  currentPokemonDescription?: string;
   currentPokemonColor: string = "";
   currentPokemonHeight: number = 0;
   currentPokemonWeight: number = 0;
@@ -63,11 +63,17 @@ export class PokemonDetailsComponent {
 
     this.pokemonServie.getPokemonDescriptionByName(this.currentPokemon?.name).subscribe({
       next: (data) =>{
-        this.currentPokemonDescription = data.flavor_text_entries[0].flavor_text;
+        console.log("Flavor text entries: ", data.flavor_text_entries);
+        let description = data.flavor_text_entries.find((item)=>{
+          return item.language.name === "en";
+        })
+        this.currentPokemonDescription = description?.flavor_text ?? "No description available";
         this.currentPokemonColor = data.color.name;
       },
       error: (err) => {
-        console.log(err)
+        console.log(err);
+        this.currentPokemonDescription = "[No description available]";
+        this.currentPokemonColor = "unknown";
       }
     })
   }
