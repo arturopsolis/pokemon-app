@@ -1,7 +1,7 @@
 <div class="container" style="max-width: 900px">
   <div *ngIf="!currentPokemon">
     <img
-      src="../../../assets/pokemon_logo.jpg"
+      src="../../../assets/pokemon_logo.png"
       class="pokemon-logo"
       alt="Pokémon Logo"
     />
@@ -39,7 +39,7 @@
               <img [src]="pokemonSpriteDefault(pokemon.url)" />
             </div>
             <p>
-              <span>#{{ extractPokemonId(pokemon.url) }}</span
+              <span>N.{{ extractPokemonId(pokemon.url) | idFormat }}</span
               ><br />
               <span>{{ pokemon.name | titlecase }}</span>
             </p>

@@ -5,10 +5,12 @@
     <img [src]="currentPokemonOfficialArt" alt="" />
   </div>
 
-  <div>
+  <div class="pokemon-details">
     <h1 style="font-weight: bolder" class="mt-3 mb-0">
-      <span style="color: #ccd2dd">#{{ currentPokemonId }}</span>
-      {{ currentPokemon?.name | uppercase }}
+      <span> N.{{ currentPokemonId | idFormat }} </span>
+      <span>
+        {{ currentPokemon?.name | uppercase }}
+      </span>
     </h1>
 
     <ul class="pokemon-types">

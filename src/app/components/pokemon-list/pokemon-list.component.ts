@@ -86,20 +86,19 @@ export class PokemonListComponent implements OnInit {
     this.currentPokemon = pokemon;
   }
 
-  extractPokemonId(url: string) {
-    const parts = url.split('/'); 
-    return +parts[parts.length - 2];
-  }
-
   pokemonSpriteDefault(url: string){
     let imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
     let id = this.extractPokemonId(url);
     return `${imageUrl}${id}.png`;
-
   }
 
   cleanCurrentPokemon(){
     this.currentPokemon = null;
+  }
+
+  extractPokemonId(url: string) {
+    const parts = url.split('/'); 
+    return +parts[parts.length - 2];
   }
 
 

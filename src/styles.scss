@@ -182,3 +182,22 @@ h6{
 
 }
 
+.pokemon-details{
+    h1{
+        font-weight: bolder;
+        span{
+            display: block;
+            
+            &:first-child{
+                color: #ccd2dd;
+                font-size: 1rem;
+                padding-right: 5px;
+            }
+        }
+    }
+
+    h6{
+        font-weight: normal;
+    }
+
+}
