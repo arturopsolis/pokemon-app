@@ -114,6 +114,10 @@ ul.pokemon-types {
     border-radius: 50%;
     pointer-events: none;
     transform: translate(-25%, -87%);
+    @media screen and (min-width: 1024px) {
+        transform: translate(-8%, -87%);
+    }
+
     &.type-normal { background-color: rgba($type-normal, $opacity-level); }
     &.type-fire { background-color: rgba($type-fire, $opacity-level); }
     &.type-water { background-color: rgba($type-water, $opacity-level); }
@@ -206,9 +210,9 @@ h6{
 
 ul.evoution-chain-list{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: normal;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
     padding: 0;
     margin: 30px 0;
     list-style: none;
