@@ -22,38 +22,82 @@
       </li>
     </ul>
 
-    <p class="mb-5">{{ currentPokemonDescription }}</p>
+    <p class="mb-4">{{ currentPokemonDescription }}</p>
 
-    <div class="row">
-      <div class="col-6">
-        <h6 [ngClass]="'type-' + currentPokemonMainType">Height</h6>
-        <p>{{ currentPokemonHeight / 10 }}m</p>
-      </div>
-      <div class="col-6">
-        <h6 [ngClass]="'type-' + currentPokemonMainType">Weight</h6>
-        <p>{{ currentPokemonWeight / 10 }}kg</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <h6 [ngClass]="'type-' + currentPokemonMainType">Main Type</h6>
-        <p>{{ currentPokemonMainType | titlecase }}</p>
-      </div>
-      <div class="col-6">
-        <h6 [ngClass]="'type-' + currentPokemonMainType">Main Ability</h6>
-        <p>{{ currentPokemonMainAbility | titlecase }}</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <button
-          (click)="playAudio()"
-          [ngClass]="'mt-4 btn-play type-' + currentPokemonMainType"
-          style="color: #fff"
+    <!-- Bootstrap Nav Tabs -->
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [class.active]="activeTab === 'info'"
+          (click)="activeTab = 'info'"
         >
-          <i class="bi bi-play"></i>
-          Play Cry
-        </button>
+          Additional Info
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [class.active]="activeTab === 'evolution'"
+          (click)="activeTab = 'evolution'"
+        >
+          Evolution Chain
+        </a>
+      </li>
+    </ul>
+
+    <!-- Contenido de las Pestañas -->
+    <div class="tab-content mt-3">
+      <div *ngIf="activeTab === 'info'">
+        <div class="row">
+          <div class="col-6">
+            <h6 [ngClass]="'type-' + currentPokemonMainType">Height</h6>
+            <p>{{ currentPokemonHeight / 10 }}m</p>
+          </div>
+          <div class="col-6">
+            <h6 [ngClass]="'type-' + currentPokemonMainType">Weight</h6>
+            <p>{{ currentPokemonWeight / 10 }}kg</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <h6 [ngClass]="'type-' + currentPokemonMainType">Main Type</h6>
+            <p>{{ currentPokemonMainType | titlecase }}</p>
+          </div>
+          <div class="col-6">
+            <h6 [ngClass]="'type-' + currentPokemonMainType">Main Ability</h6>
+            <p>{{ currentPokemonMainAbility | titlecase }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <button
+              (click)="playAudio()"
+              [ngClass]="'mt-4 btn-play type-' + currentPokemonMainType"
+              style="color: #fff"
+            >
+              <i class="bi bi-play"></i>
+              Play Cry
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="activeTab === 'evolution'">
+        <ul class="evoution-chain-list">
+          <li
+            *ngFor="
+              let pokemon of currentEvolutionChainPokemons;
+              let last = last
+            "
+          >
+            <img [src]="pokemon.spriteUrl" [alt]="pokemon.name" />
+            <p>
+              {{ pokemon.name }}
+            </p>
+            <i *ngIf="!last" class="bi bi-arrow-right right-icon"></i>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

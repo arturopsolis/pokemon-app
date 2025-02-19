@@ -11,6 +11,7 @@ export class PokemonDetailsComponent {
 
   @Input() currentPokemon: Pokemon | undefined;
   private audio = new Audio();
+  activeTab: string = 'info'; 
 
   colorMap: { [key: string]: string } = {
     black: "#212121",
@@ -37,6 +38,9 @@ export class PokemonDetailsComponent {
   currentPokemonMainType: string = '';
   currentPokemonMainAbility: string = '';
   currentPokemonCriesUrl: string = '';
+  currentPokemonEveolutionChainUrl: string = '';
+
+  currentEvolutionChainPokemons: any[] = [];
 
   constructor(private pokemonServie: PokemonService){}
 
@@ -63,12 +67,14 @@ export class PokemonDetailsComponent {
 
     this.pokemonServie.getPokemonDescriptionByName(this.currentPokemon?.name).subscribe({
       next: (data) =>{
-        console.log("Flavor text entries: ", data.flavor_text_entries);
         let description = data.flavor_text_entries.find((item)=>{
           return item.language.name === "en";
         })
         this.currentPokemonDescription = description?.flavor_text ?? "No description available";
         this.currentPokemonColor = data.color.name;
+
+        this.getPokemonsByEvolutionChain(data.evolution_chain.url);
+        
       },
       error: (err) => {
         console.log(err);
@@ -76,6 +82,31 @@ export class PokemonDetailsComponent {
         this.currentPokemonColor = "unknown";
       }
     })
+  }
+
+  getPokemonsByEvolutionChain(evolutionChainUrl: string){
+    this.pokemonServie.getPokemonsByEvolutionChain(evolutionChainUrl).subscribe({
+      next: (evolutionNames) => {
+        this.currentEvolutionChainPokemons = []; // Reiniciar la lista antes de agregar
+
+        evolutionNames.forEach(name => {
+          this.pokemonServie.getPokemonSpriteByName(name).subscribe({
+            next: (spriteUrl) => {
+              this.currentEvolutionChainPokemons.push({ name, spriteUrl });
+              console.log("Added:", { name, spriteUrl });
+            }
+          });
+        });
+      },
+      error: (err) => {
+        console.error("Error fetching evolution chain", err);
+      }
+    });
+}
+
+  getPokemonSpriteByPokemonName(name: string){
+    console.log("this.pokemonServie.getPokemonSpriteByName(name):", this.pokemonServie.getPokemonSpriteByName(name))
+    return this.pokemonServie.getPokemonSpriteByName(name);
   }
 
   extractPokemonId(url: any) {
@@ -92,6 +123,9 @@ export class PokemonDetailsComponent {
       console.warn('No audio URL provided');
     }
   }
+
+  
+
 
 }
 
