@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Pokemon, PokemonDetails, Type } from 'src/app/models/pokemon';
 import { PokemonService } from 'src/app/services/pokemons.service';
 
@@ -8,23 +8,10 @@ import { PokemonService } from 'src/app/services/pokemons.service';
   styleUrls: ['./pokemon-details.component.scss']
 })
 export class PokemonDetailsComponent {
-
+  @Output() showDetails = new EventEmitter<boolean>;
   @Input() currentPokemon: Pokemon | undefined;
   private audio = new Audio();
   activeTab: string = 'info'; 
-
-  colorMap: { [key: string]: string } = {
-    black: "#212121",
-    blue: "#3b5998",
-    brown: "#8B4513",
-    gray: "#9E9E9E",
-    green: "#4CAF50",
-    pink: "#E91E63",
-    purple: "#9C27B0",
-    red: "#c4393d",
-    white: "#F5F5F5",
-    yellow: "#f6c14a"
-  };
 
   currentPokemonCompleteDetails: PokemonDetails | undefined;
   currentPokemonOfficialArt: string = ""
@@ -39,7 +26,6 @@ export class PokemonDetailsComponent {
   currentPokemonMainAbility: string = '';
   currentPokemonCriesUrl: string = '';
   currentPokemonEveolutionChainUrl: string = '';
-
   currentEvolutionChainPokemons: any[] = [];
 
   constructor(private pokemonServie: PokemonService){}
@@ -102,10 +88,9 @@ export class PokemonDetailsComponent {
         console.error("Error fetching evolution chain", err);
       }
     });
-}
+  }
 
   getPokemonSpriteByPokemonName(name: string){
-    console.log("this.pokemonServie.getPokemonSpriteByName(name):", this.pokemonServie.getPokemonSpriteByName(name))
     return this.pokemonServie.getPokemonSpriteByName(name);
   }
 
@@ -124,8 +109,9 @@ export class PokemonDetailsComponent {
     }
   }
 
-  
-
+  handleBackToMain(){
+    this.showDetails.emit(false);
+  }
 
 }
 

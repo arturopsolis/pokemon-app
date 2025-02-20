@@ -1,103 +1,116 @@
-<div class="container pokemon-container">
-  <div [ngClass]="'circle type-' + currentPokemonMainType"></div>
-
-  <div class="pokemon-official-art">
-    <img [src]="currentPokemonOfficialArt" alt="" />
+<div class="pokemon-details-container">
+  <div
+    *ngIf="currentPokemon"
+    class="header-details-nav d-flex align-items-center justify-content-between"
+  >
+    <button class="button-back" (click)="handleBackToMain()">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <img src="../../../assets/icon-pokeball.png" class="pokeball-icon" />
   </div>
+  <div class="container pokemon-container">
+    <div [ngClass]="'circle type-' + currentPokemonMainType"></div>
 
-  <div class="pokemon-details">
-    <h1 style="font-weight: bolder" class="mt-3 mb-0">
-      <span> N.{{ currentPokemonId | idFormat }} </span>
-      <span>
-        {{ currentPokemon?.name | uppercase }}
-      </span>
-    </h1>
+    <div class="pokemon-official-art">
+      <img [src]="currentPokemonOfficialArt" alt="" />
+    </div>
 
-    <ul class="pokemon-types">
-      <li
-        *ngFor="let type of currentPokemonTypes"
-        [ngClass]="'type type-' + type.type.name"
-      >
-        {{ type.type.name | titlecase }}
-      </li>
-    </ul>
+    <div class="pokemon-details">
+      <h1 style="font-weight: bolder" class="mt-3 mb-0">
+        <span> N.{{ currentPokemonId | idFormat }} </span>
+        <span>
+          {{ currentPokemon?.name | uppercase }}
+        </span>
+      </h1>
 
-    <p class="mb-4">{{ currentPokemonDescription }}</p>
-
-    <!-- Bootstrap Nav Tabs -->
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [class.active]="activeTab === 'info'"
-          (click)="activeTab = 'info'"
+      <ul class="pokemon-types">
+        <li
+          *ngFor="let type of currentPokemonTypes"
+          [ngClass]="'type type-' + type.type.name"
         >
-          Additional Info
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [class.active]="activeTab === 'evolution'"
-          (click)="activeTab = 'evolution'"
-        >
-          Evolution Chain
-        </a>
-      </li>
-    </ul>
+          {{ type.type.name | titlecase }}
+        </li>
+      </ul>
 
-    <!-- Contenido de las Pestañas -->
-    <div class="tab-content mt-3">
-      <div *ngIf="activeTab === 'info'">
-        <div class="row">
-          <div class="col-6">
-            <h6 [ngClass]="'type-' + currentPokemonMainType">Height</h6>
-            <p>{{ currentPokemonHeight / 10 }}m</p>
-          </div>
-          <div class="col-6">
-            <h6 [ngClass]="'type-' + currentPokemonMainType">Weight</h6>
-            <p>{{ currentPokemonWeight / 10 }}kg</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <h6 [ngClass]="'type-' + currentPokemonMainType">Main Type</h6>
-            <p>{{ currentPokemonMainType | titlecase }}</p>
-          </div>
-          <div class="col-6">
-            <h6 [ngClass]="'type-' + currentPokemonMainType">Main Ability</h6>
-            <p>{{ currentPokemonMainAbility | titlecase }}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <button
-              (click)="playAudio()"
-              [ngClass]="'mt-4 btn-play type-' + currentPokemonMainType"
-              style="color: #fff"
-            >
-              <i class="bi bi-play"></i>
-              Play Cry
-            </button>
-          </div>
-        </div>
-      </div>
+      <p class="mb-4">{{ currentPokemonDescription }}</p>
 
-      <div *ngIf="activeTab === 'evolution'">
-        <ul class="evoution-chain-list">
-          <li
-            *ngFor="
-              let pokemon of currentEvolutionChainPokemons;
-              let last = last
-            "
+      <!-- Bootstrap Nav Tabs -->
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [ngClass]="'type-' + currentPokemonMainType"
+            [class.active]="activeTab === 'info'"
+            (click)="activeTab = 'info'"
           >
-            <img [src]="pokemon.spriteUrl" [alt]="pokemon.name" />
-            <p>
-              {{ pokemon.name }}
-            </p>
-            <i *ngIf="!last" class="bi bi-arrow-right right-icon"></i>
-          </li>
-        </ul>
+            Additional Info
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [ngClass]="'type-' + currentPokemonMainType"
+            [class.active]="activeTab === 'evolution'"
+            (click)="activeTab = 'evolution'"
+          >
+            Evolution Chain
+          </a>
+        </li>
+      </ul>
+
+      <!-- Contenido de las Pestañas -->
+      <div class="tab-content">
+        <div *ngIf="activeTab === 'info'">
+          <div class="row">
+            <div class="col-6">
+              <h6 [ngClass]="'type-' + currentPokemonMainType">Height</h6>
+              <p>{{ currentPokemonHeight / 10 }}m</p>
+            </div>
+            <div class="col-6">
+              <h6 [ngClass]="'type-' + currentPokemonMainType">Weight</h6>
+              <p>{{ currentPokemonWeight / 10 }}kg</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <h6 [ngClass]="'type-' + currentPokemonMainType">Main Type</h6>
+              <p>{{ currentPokemonMainType | titlecase }}</p>
+            </div>
+            <div class="col-6">
+              <h6 [ngClass]="'type-' + currentPokemonMainType">Main Ability</h6>
+              <p>{{ currentPokemonMainAbility | titlecase }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <button
+                (click)="playAudio()"
+                [ngClass]="'mt-4 btn-play type-' + currentPokemonMainType"
+                style="color: #fff"
+              >
+                <i class="bi bi-play"></i>
+                Play Cry
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="activeTab === 'evolution'">
+          <ul class="evoution-chain-list">
+            <li
+              *ngFor="
+                let pokemon of currentEvolutionChainPokemons;
+                let last = last
+              "
+            >
+              <img [src]="pokemon.spriteUrl" [alt]="pokemon.name" />
+              <p>
+                {{ pokemon.name }}
+              </p>
+              <i *ngIf="!last" class="bi bi-arrow-right right-icon"></i>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

@@ -15,10 +15,9 @@ export class PokemonListComponent implements OnInit {
   limit = 1017;
   offset = 0;
   currentPage = 1;
-
   filterForm: FormGroup;
-
   currentPokemon: Pokemon | undefined | null;
+  showDetails = false;
 
   constructor(private pokemonService: PokemonService) {
     this.filterForm = new FormGroup({
@@ -68,22 +67,9 @@ export class PokemonListComponent implements OnInit {
     }
   }
 
-  nextPage(): void {
-    this.offset += this.limit;
-    this.currentPage += 1;
-    this.fetchPokemons();
-  }
-
-  previousPage(): void {
-    if (this.offset > 0) {
-      this.offset -= this.limit;
-      this.currentPage -=1;
-      this.fetchPokemons();
-    }
-  }
-
   handlePokemonDetails(pokemon: Pokemon){
     this.currentPokemon = pokemon;
+    this.showDetails = true;
   }
 
   pokemonSpriteDefault(url: string){
@@ -92,14 +78,9 @@ export class PokemonListComponent implements OnInit {
     return `${imageUrl}${id}.png`;
   }
 
-  cleanCurrentPokemon(){
-    this.currentPokemon = null;
-  }
-
   extractPokemonId(url: string) {
     const parts = url.split('/'); 
     return +parts[parts.length - 2];
   }
-
 
 }

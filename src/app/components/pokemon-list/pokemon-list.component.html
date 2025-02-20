@@ -1,5 +1,5 @@
 <div class="container" style="max-width: 900px">
-  <div *ngIf="!currentPokemon">
+  <div>
     <img
       src="../../../assets/pokemon_logo.png"
       class="pokemon-logo"
@@ -48,19 +48,10 @@
       </ul>
     </div>
   </div>
-
-  <div
-    *ngIf="currentPokemon"
-    class="header-details-nav d-flex align-items-center justify-content-between"
-  >
-    <button (click)="cleanCurrentPokemon()" class="button-back">
-      <i class="bi bi-arrow-left"></i>
-    </button>
-    <img src="../../../assets/icon-pokeball.png" class="pokeball-icon" />
-  </div>
-
-  <app-pokemon-details
-    *ngIf="currentPokemon"
-    [currentPokemon]="currentPokemon"
-  ></app-pokemon-details>
 </div>
+
+<app-pokemon-details
+  *ngIf="currentPokemon && showDetails"
+  [currentPokemon]="currentPokemon"
+  (showDetails)="showDetails = $event"
+></app-pokemon-details>

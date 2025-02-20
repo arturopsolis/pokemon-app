@@ -62,6 +62,7 @@ body, html{
     background: none;
     border: none;
     font-size: 32px;
+    padding: 12px;
 }
 
 
@@ -103,6 +104,10 @@ ul.pokemon-types {
     }
 }
 
+.pokemon-container{
+    position: relative;
+}
+
 .circle{
     display: block;
     position: absolute;
@@ -113,9 +118,9 @@ ul.pokemon-types {
     left: 0;
     border-radius: 50%;
     pointer-events: none;
-    transform: translate(-25%, -87%);
+    transform: translate(-381px, -87%);
     @media screen and (min-width: 1024px) {
-        transform: translate(-8%, -87%);
+        transform: translate(-381px, -90%);
     }
 
     &.type-normal { background-color: rgba($type-normal, $opacity-level); }
@@ -187,6 +192,29 @@ h6{
 
 }
 
+ul.nav.nav-tabs{
+    li.nav-item a.nav-link:not(.active){
+        &.type-normal { color: adjust-hue($type-normal, 180deg); }
+        &.type-fire { color: adjust-hue($type-fire, 180deg); }
+        &.type-water { color: adjust-hue($type-water, 180deg); }
+        &.type-electric { color: adjust-hue($type-electric, 180deg); }
+        &.type-grass { color: adjust-hue($type-grass, 180deg); }
+        &.type-ice { color: adjust-hue($type-ice, 180deg); }
+        &.type-fighting { color: adjust-hue($type-fighting, 180deg); }
+        &.type-poison { color: adjust-hue($type-poison, 180deg); }
+        &.type-ground { color: adjust-hue($type-ground, 180deg); }
+        &.type-flying { color: adjust-hue($type-flying, 180deg); }
+        &.type-psychic { color: adjust-hue($type-psychic, 180deg); }
+        &.type-bug { color: adjust-hue($type-bug, 180deg); }
+        &.type-rock { color: adjust-hue($type-rock, 180deg); }
+        &.type-ghost { color: adjust-hue($type-ghost, 180deg); }
+        &.type-dragon { color: adjust-hue($type-dragon, 180deg); }
+        &.type-dark { color: adjust-hue($type-dark, 180deg); }
+        &.type-steel { color: adjust-hue($type-steel, 180deg); }
+        &.type-fairy { color: adjust-hue($type-fairy, 180deg); }
+    }
+}
+
 .pokemon-details{
     h1{
         font-weight: bolder;
@@ -212,7 +240,7 @@ ul.evoution-chain-list{
     display: flex;
     justify-content: normal;
     align-items: center;
-    gap: 30px;
+    gap: 18px;
     padding: 0;
     margin: 30px 0;
     list-style: none;
@@ -229,7 +257,7 @@ ul.evoution-chain-list{
         }
 
         img{
-            width: 80px;
+            width: 72px;
             height: auto;
         }
 
@@ -244,7 +272,21 @@ ul.evoution-chain-list{
 }
 
 .tab-content{
+    background-color: #fff;
     & > div{
-        padding: 0 16px;
+        padding: 16px;
+        overflow: auto;
     }
+}
+
+
+.pokemon-details-container{
+    display: block;
+    position: absolute;
+    top:0;
+    left:0;
+    background-color: #F8F9FA;
+    width: 100vw;
+    height: 100vh;
+    padding: 0 12px;
 }
