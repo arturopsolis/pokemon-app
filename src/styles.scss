@@ -22,15 +22,19 @@ $type-fairy: #D685AD;
 $opacity-level: 0.5;
 $darken-level: 5%;
 
+$background-1: #F8F9FA;
+$background-2: #F0EEE9;
 
 body, html{
-    background-color: #F8F9FA  !important;
+    background-color: $background-1  !important;
 }
 
 .pokemon-logo{
     display: block;
     position: relative;
     margin: 30px auto;
+    width: 180px;
+    height: auto;
 }
 
 .header-details-nav{
@@ -119,9 +123,9 @@ ul.pokemon-types {
     left: 0;
     border-radius: 50%;
     pointer-events: none;
-    transform: translate(-381px, -87%);
+    transform: translate(-381px, -87%) scale(1);
     @media screen and (min-width: 1024px) {
-        transform: translate(-381px, -90%);
+        transform: translate(-20%, -75%) scale(0.7);
     }
 
     &.type-normal { background-color: rgba($type-normal, $opacity-level); }
@@ -164,7 +168,6 @@ h6{
     &.type-steel { color: darken($type-steel, $darken-level); }
     &.type-fairy { color: darken($type-fairy, $darken-level); }
 }
-
 
 .btn-play{
     border: none;
@@ -233,9 +236,7 @@ ul.nav.nav-tabs{
     h6{
         font-weight: normal;
     }
-
 }
-
 
 ul.evoution-chain-list{
     display: flex;
@@ -283,11 +284,47 @@ ul.evoution-chain-list{
 
 .pokemon-details-container{
     display: block;
-    position: absolute;
-    top:0;
-    left:0;
-    background-color: #F8F9FA;
+    position: relative;
+    background-color: $background-1;
     width: 100vw;
     height: 100vh;
     padding: 0 12px;
+    overflow-x: hidden;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.pokemon-list-container{
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.pokemon-list{
+    height: calc(104dvh - 249px);
+    overflow: auto;
+    margin-top: 15px;
+
+    li{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding:0;
+    
+        .pokemon-sprite{
+            width: 96px;
+            height: 96px;
+        }
+    
+        p{
+            padding: 0;
+            margin:0;
+        }
+    
+        &:hover{
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+
+    } 
 }

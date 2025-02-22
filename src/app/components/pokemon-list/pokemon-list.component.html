@@ -1,5 +1,5 @@
-<div class="container" style="max-width: 900px">
-  <div>
+<div class="pokemon-list-container" [hidden]="showDetails">
+  <div class="container">
     <img
       src="../../../assets/pokemon_logo.png"
       class="pokemon-logo"
@@ -27,26 +27,24 @@
     </form>
 
     <!-- list -->
-    <div class="pokemon-list-container">
-      <ul class="pokemon-list list-group mt-3">
-        <li
-          (click)="handlePokemonDetails(pokemon)"
-          class="list-group-item"
-          *ngFor="let pokemon of filteredPokemons"
-        >
-          <div class="d-flex gap-4 align-items-center">
-            <div class="pokemon-sprite">
-              <img [src]="pokemonSpriteDefault(pokemon.url)" />
-            </div>
-            <p>
-              <span>N.{{ extractPokemonId(pokemon.url) | idFormat }}</span
-              ><br />
-              <span>{{ pokemon.name | titlecase }}</span>
-            </p>
+    <ul class="pokemon-list list-group mt-3">
+      <li
+        (click)="handlePokemonDetails(pokemon)"
+        class="list-group-item"
+        *ngFor="let pokemon of filteredPokemons"
+      >
+        <div class="d-flex gap-4 align-items-center">
+          <div class="pokemon-sprite">
+            <img [src]="pokemonSpriteDefault(pokemon.url)" />
           </div>
-        </li>
-      </ul>
-    </div>
+          <p>
+            <span>N.{{ extractPokemonId(pokemon.url) | idFormat }}</span
+            ><br />
+            <span>{{ pokemon.name | titlecase }}</span>
+          </p>
+        </div>
+      </li>
+    </ul>
   </div>
 </div>
 
