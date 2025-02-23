@@ -10,8 +10,11 @@ import { PokemonService } from 'src/app/services/pokemons.service';
 export class PokemonDetailsComponent {
   @Output() showDetails = new EventEmitter<boolean>;
   @Input() currentPokemon: Pokemon | undefined;
+
   private audio = new Audio();
   activeTab: string = 'info'; 
+  isLoading: boolean = true;
+  isImageLoading: boolean = true;
 
   currentPokemonCompleteDetails: PokemonDetails | undefined;
   currentPokemonOfficialArt: string = ""
@@ -31,6 +34,7 @@ export class PokemonDetailsComponent {
   constructor(private pokemonServie: PokemonService){}
 
   ngOnChanges(){
+    this.isImageLoading = true;
     
     this.currentPokemonId = this.extractPokemonId(this.currentPokemon?.url);
     this.currentPokemonOfficialArt = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${this.currentPokemonId}.png`
@@ -45,6 +49,7 @@ export class PokemonDetailsComponent {
         this.currentPokemonMainType = data.types[0].type.name;
         this.currentPokemonMainAbility = data.abilities[0].ability.name;
         this.currentPokemonCriesUrl = data.cries.latest;
+        
       },
       error: (err)=>{
         console.log(err)
@@ -56,11 +61,13 @@ export class PokemonDetailsComponent {
         let description = data.flavor_text_entries.find((item)=>{
           return item.language.name === "en";
         })
-        this.currentPokemonDescription = description?.flavor_text ?? "No description available";
+        this.currentPokemonDescription = (description?.flavor_text ?? "No description available")
+        .replace(/[\x00-\x1F\x7F-\x9F]/g, ' ') // Elimina caracteres de control
+        .replace(/\s+/g, ' ') // Reemplaza múltiples espacios por un solo espacio
+    .trim(); // Elimina espacios al inicio y final
         this.currentPokemonColor = data.color.name;
-
         this.getPokemonsByEvolutionChain(data.evolution_chain.url);
-        
+        this.isLoading = false;
       },
       error: (err) => {
         console.log(err);
@@ -111,6 +118,11 @@ export class PokemonDetailsComponent {
 
   handleBackToMain(){
     this.showDetails.emit(false);
+  }
+
+  onImageLoad(){
+    this.isImageLoading = false;
+    console.log("Image is loaded");
   }
 
 }

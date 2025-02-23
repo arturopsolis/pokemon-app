@@ -123,9 +123,13 @@ ul.pokemon-types {
     left: 0;
     border-radius: 50%;
     pointer-events: none;
-    transform: translate(-381px, -87%) scale(1);
+    transform: translate(-381px, -87%) scale(0.1);
+    opacity: 0;
+    animation: fadeScaleIn 0.5s ease forwards;
+
     @media screen and (min-width: 1024px) {
-        transform: translate(-20%, -75%) scale(0.7);
+        transform: translate(-20%, -75%) scale(0);
+        animation: fadeScaleIn 0.8s ease forwards;
     }
 
     &.type-normal { background-color: rgba($type-normal, $opacity-level); }
@@ -146,6 +150,17 @@ ul.pokemon-types {
     &.type-dark { background-color: rgba($type-dark, $opacity-level); }
     &.type-steel { background-color: rgba($type-steel, $opacity-level); }
     &.type-fairy { background-color: rgba($type-fairy, $opacity-level); }
+}
+
+@keyframes fadeScaleIn {
+    from {
+        transform: translate(-381px, -87%) scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-381px, -87%) scale(1);
+        opacity: 1;
+    }
 }
 
 h6{
@@ -226,9 +241,8 @@ ul.nav.nav-tabs{
             display: block;
             
             &:first-child{
-                color: #ccd2dd;
-                font-size: 1rem;
-                padding-right: 5px;
+                color: #bcc4cd;
+                font-size: 1.2rem;
             }
         }
     }
