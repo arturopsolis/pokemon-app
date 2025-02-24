@@ -17,8 +17,6 @@ export class PokemonDetailsComponent {
   isLoading: boolean = true;
   isImageLoading: boolean = true;
 
-  cryIsPlaying: boolean = false;
-
   currentPokemonCompleteDetails: PokemonDetails | undefined;
   currentPokemonOfficialArt: string = ""
   currentPokemonId: number = 0;
@@ -33,9 +31,9 @@ export class PokemonDetailsComponent {
   currentPokemonCriesUrl: string = '';
   currentPokemonEveolutionChainUrl: string = '';
   currentEvolutionChainPokemons: any[] = [];
+  cryIsPlaying: boolean = false;
 
-
-  constructor(private pokemonServie: PokemonService){}
+  constructor(private pokemonService: PokemonService){}
 
   ngOnChanges(){
     this.isImageLoading = true;
@@ -43,7 +41,7 @@ export class PokemonDetailsComponent {
     this.currentPokemonId = this.extractPokemonId(this.currentPokemon?.url);
     this.currentPokemonOfficialArt = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${this.currentPokemonId}.png`
     
-    this.pokemonServie.getPokemonDetailsByName(this.currentPokemon?.name).subscribe({
+    this.pokemonService.getPokemonDetailsByName(this.currentPokemon?.name).subscribe({
       next: (data)=>{
         this.currentPokemonCompleteDetails = data;
         this.currentPokemonSpritesFrontDefault = data.sprites.front_default;
@@ -60,7 +58,7 @@ export class PokemonDetailsComponent {
       }
     })
 
-    this.pokemonServie.getPokemonDescriptionByName(this.currentPokemon?.name).subscribe({
+    this.pokemonService.getPokemonDescriptionByName(this.currentPokemon?.name).subscribe({
       next: (data) =>{
         let description = data.flavor_text_entries.find((item)=>{
           return item.language.name === "en";
@@ -82,12 +80,12 @@ export class PokemonDetailsComponent {
   }
 
   getPokemonsByEvolutionChain(evolutionChainUrl: string) {
-    this.pokemonServie.getPokemonsByEvolutionChain(evolutionChainUrl).subscribe({
+    this.pokemonService.getPokemonsByEvolutionChain(evolutionChainUrl).subscribe({
       next: (evolutionNames: string[]) => {
         this.currentEvolutionChainPokemons = []; // Reiniciar la lista antes de agregar
   
         const spriteObservables = evolutionNames.map(name =>
-          this.pokemonServie.getPokemonSpriteByName(name).pipe(
+          this.pokemonService.getPokemonSpriteByName(name).pipe(
             map(spriteUrl => ({ name, spriteUrl })) // Transformar cada resultado
           )
         );
@@ -108,7 +106,7 @@ export class PokemonDetailsComponent {
   }
 
   getPokemonSpriteByPokemonName(name: string){
-    return this.pokemonServie.getPokemonSpriteByName(name);
+    return this.pokemonService.getPokemonSpriteByName(name);
   }
 
   extractPokemonId(url: any) {
