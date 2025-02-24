@@ -111,7 +111,8 @@
                   [ngClass]="'mt-4 btn-play type-' + currentPokemonMainType"
                   style="color: #fff"
                 >
-                  <i class="bi bi-play"></i>
+                  <i class="bi bi-play" *ngIf="!cryIsPlaying"></i>
+                  <i class="bi bi-volume-up-fill" *ngIf="cryIsPlaying"></i>
                   Play Cry
                 </button>
               </div>

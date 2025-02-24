@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { forkJoin, map } from 'rxjs';
 import { Pokemon, PokemonDetails, Type } from 'src/app/models/pokemon';
 import { PokemonService } from 'src/app/services/pokemons.service';
 
@@ -16,6 +17,8 @@ export class PokemonDetailsComponent {
   isLoading: boolean = true;
   isImageLoading: boolean = true;
 
+  cryIsPlaying: boolean = false;
+
   currentPokemonCompleteDetails: PokemonDetails | undefined;
   currentPokemonOfficialArt: string = ""
   currentPokemonId: number = 0;
@@ -30,6 +33,7 @@ export class PokemonDetailsComponent {
   currentPokemonCriesUrl: string = '';
   currentPokemonEveolutionChainUrl: string = '';
   currentEvolutionChainPokemons: any[] = [];
+
 
   constructor(private pokemonServie: PokemonService){}
 
@@ -77,18 +81,24 @@ export class PokemonDetailsComponent {
     })
   }
 
-  getPokemonsByEvolutionChain(evolutionChainUrl: string){
+  getPokemonsByEvolutionChain(evolutionChainUrl: string) {
     this.pokemonServie.getPokemonsByEvolutionChain(evolutionChainUrl).subscribe({
-      next: (evolutionNames) => {
+      next: (evolutionNames: string[]) => {
         this.currentEvolutionChainPokemons = []; // Reiniciar la lista antes de agregar
-
-        evolutionNames.forEach(name => {
-          this.pokemonServie.getPokemonSpriteByName(name).subscribe({
-            next: (spriteUrl) => {
-              this.currentEvolutionChainPokemons.push({ name, spriteUrl });
-              console.log("Added:", { name, spriteUrl });
-            }
-          });
+  
+        const spriteObservables = evolutionNames.map(name =>
+          this.pokemonServie.getPokemonSpriteByName(name).pipe(
+            map(spriteUrl => ({ name, spriteUrl })) // Transformar cada resultado
+          )
+        );
+  
+        forkJoin(spriteObservables).subscribe({
+          next: (pokemons) => {
+            this.currentEvolutionChainPokemons = pokemons;
+          },
+          error: (err) => {
+            console.error("Error fetching evolution chain sprites", err);
+          }
         });
       },
       error: (err) => {
@@ -107,10 +117,17 @@ export class PokemonDetailsComponent {
   }
 
   playAudio(): void {
+    this.cryIsPlaying = false;
     if (this.currentPokemonCriesUrl) {
       this.audio.src = this.currentPokemonCriesUrl;
       this.audio.load();
       this.audio.play();
+      this.cryIsPlaying = true
+
+      this.audio.onended = () => {
+        this.cryIsPlaying = false; 
+      };
+
     } else {
       console.warn('No audio URL provided');
     }
@@ -122,7 +139,6 @@ export class PokemonDetailsComponent {
 
   onImageLoad(){
     this.isImageLoading = false;
-    console.log("Image is loaded");
   }
 
 }
