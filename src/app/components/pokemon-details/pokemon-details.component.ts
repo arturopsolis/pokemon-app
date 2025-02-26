@@ -4,14 +4,13 @@ import { Pokemon, PokemonDetails, Type } from 'src/app/models/pokemon';
 import { PokemonService } from 'src/app/services/pokemons.service';
 import { Pokemon3DService } from 'src/app/services/pokemon-3d.service'; // Importamos el nuevo servicio
 
-
 @Component({
   selector: 'app-pokemon-details',
   templateUrl: './pokemon-details.component.html',
   styleUrls: ['./pokemon-details.component.scss']
 })
 export class PokemonDetailsComponent {
-  @Output() showDetails = new EventEmitter<boolean>;
+  @Output() showDetails = new EventEmitter<boolean>();
   @Input() currentPokemon: Pokemon | undefined;
 
   private audio = new Audio();
@@ -20,7 +19,7 @@ export class PokemonDetailsComponent {
   isImageLoading: boolean = true;
 
   currentPokemonCompleteDetails: PokemonDetails | undefined;
-  currentPokemonOfficialArt: string = ""
+  currentPokemonOfficialArt: string = "";
   currentPokemonId: number = 0;
   currentPokemonDescription?: string;
   currentPokemonColor: string = "";
@@ -37,17 +36,18 @@ export class PokemonDetailsComponent {
   currentPokemon3DModelUrl: string | null = null;
   pokemon3dModelIsLoading: boolean = false;
   hasAnimation: boolean = false;
+  has3DModel: boolean = false; // Se agrega para controlar la visibilidad del tab 3D
 
-  constructor(private pokemonService: PokemonService, private pokemon3DService: Pokemon3DService){}
+  constructor(private pokemonService: PokemonService, private pokemon3DService: Pokemon3DService) {}
 
-  ngOnChanges(){
+  ngOnChanges() {
     this.isImageLoading = true;
     
     this.currentPokemonId = this.extractPokemonId(this.currentPokemon?.url);
-    this.currentPokemonOfficialArt = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${this.currentPokemonId}.png`
-    
+    this.currentPokemonOfficialArt = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${this.currentPokemonId}.png`;
+
     this.pokemonService.getPokemonDetailsByName(this.currentPokemon?.name).subscribe({
-      next: (data)=>{
+      next: (data) => {
         this.currentPokemonCompleteDetails = data;
         this.currentPokemonSpritesFrontDefault = data.sprites.front_default;
         this.currentPokemonHeight = data.height;
@@ -56,22 +56,17 @@ export class PokemonDetailsComponent {
         this.currentPokemonMainType = data.types[0].type.name;
         this.currentPokemonMainAbility = data.abilities[0].ability.name;
         this.currentPokemonCriesUrl = data.cries.latest;
-        
       },
-      error: (err)=>{
-        console.log(err)
-      }
-    })
+      error: (err) => console.log(err)
+    });
 
     this.pokemonService.getPokemonDescriptionByName(this.currentPokemon?.name).subscribe({
-      next: (data) =>{
-        let description = data.flavor_text_entries.find((item)=>{
-          return item.language.name === "en";
-        })
+      next: (data) => {
+        let description = data.flavor_text_entries.find((item) => item.language.name === "en");
         this.currentPokemonDescription = (description?.flavor_text ?? "No description available")
-        .replace(/[\x00-\x1F\x7F-\x9F]/g, ' ') // Elimina caracteres de control
-        .replace(/\s+/g, ' ') // Reemplaza múltiples espacios por un solo espacio
-    .trim(); // Elimina espacios al inicio y final
+          .replace(/[\x00-\x1F\x7F-\x9F]/g, ' ') // Elimina caracteres de control
+          .replace(/\s+/g, ' ') // Reemplaza múltiples espacios por un solo espacio
+          .trim(); // Elimina espacios al inicio y final
         this.currentPokemonColor = data.color.name;
         this.getPokemonsByEvolutionChain(data.evolution_chain.url);
         this.isLoading = false;
@@ -81,7 +76,7 @@ export class PokemonDetailsComponent {
         this.currentPokemonDescription = "[No description available]";
         this.currentPokemonColor = "unknown";
       }
-    })
+    });
 
     if (this.currentPokemon?.name) {
       this.pokemon3dModelIsLoading = true;
@@ -89,22 +84,20 @@ export class PokemonDetailsComponent {
         next: (modelUrl) => {
           if (modelUrl) {
             this.currentPokemon3DModelUrl = modelUrl;
+            this.has3DModel = true;
             this.pokemon3dModelIsLoading = false;
             console.log("3D Model URL:", this.currentPokemon3DModelUrl);
-    
+
             // ✅ Verificamos si el modelo tiene animaciones
             setTimeout(() => {
               const modelViewer = document.querySelector('#pokemon-model') as any;
-              if (modelViewer && modelViewer.availableAnimations.length > 0) {
-                this.hasAnimation = true;
-              } else {
-                this.hasAnimation = false;
-              }
-            }, 1000); // 🔹 Pequeño retraso para asegurarse de que el modelo se cargue
+              this.hasAnimation = modelViewer?.availableAnimations?.length > 0 || false;
+            }, 1000);
           } else {
             console.log(`No 3D model found for ${this.currentPokemon?.name}`);
             this.currentPokemon3DModelUrl = null;
             this.hasAnimation = false;
+            this.has3DModel = false;
           }
         },
         error: (err) => {
@@ -112,6 +105,7 @@ export class PokemonDetailsComponent {
           this.currentPokemon3DModelUrl = null;
           this.hasAnimation = false;
           this.pokemon3dModelIsLoading = false;
+          this.has3DModel = false;
         }
       });
     }

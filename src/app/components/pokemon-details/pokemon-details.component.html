@@ -76,7 +76,7 @@
               Evolution Chain
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="has3DModel">
             <a
               class="nav-link"
               [ngClass]="'type-' + currentPokemonMainType"
@@ -149,7 +149,7 @@
             <div
               class="spinner-border text-warning"
               role="status"
-              *ngIf="isLoading && pokemon3dModelIsLoading"
+              *ngIf="pokemon3dModelIsLoading"
             >
               <span class="visually-hidden">Loading...</span>
             </div>
