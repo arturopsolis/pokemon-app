@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { forkJoin, map } from 'rxjs';
 import { Pokemon, PokemonDetails, Type } from 'src/app/models/pokemon';
 import { PokemonService } from 'src/app/services/pokemons.service';
+import { Pokemon3DService } from 'src/app/services/pokemon-3d.service'; // Importamos el nuevo servicio
+
 
 @Component({
   selector: 'app-pokemon-details',
@@ -32,8 +34,11 @@ export class PokemonDetailsComponent {
   currentPokemonEveolutionChainUrl: string = '';
   currentEvolutionChainPokemons: any[] = [];
   cryIsPlaying: boolean = false;
+  currentPokemon3DModelUrl: string | null = null;
+  pokemon3dModelIsLoading: boolean = false;
+  hasAnimation: boolean = false;
 
-  constructor(private pokemonService: PokemonService){}
+  constructor(private pokemonService: PokemonService, private pokemon3DService: Pokemon3DService){}
 
   ngOnChanges(){
     this.isImageLoading = true;
@@ -77,6 +82,39 @@ export class PokemonDetailsComponent {
         this.currentPokemonColor = "unknown";
       }
     })
+
+    if (this.currentPokemon?.name) {
+      this.pokemon3dModelIsLoading = true;
+      this.pokemon3DService.getPokemon3DModel(this.currentPokemon.name).subscribe({
+        next: (modelUrl) => {
+          if (modelUrl) {
+            this.currentPokemon3DModelUrl = modelUrl;
+            this.pokemon3dModelIsLoading = false;
+            console.log("3D Model URL:", this.currentPokemon3DModelUrl);
+    
+            // ✅ Verificamos si el modelo tiene animaciones
+            setTimeout(() => {
+              const modelViewer = document.querySelector('#pokemon-model') as any;
+              if (modelViewer && modelViewer.availableAnimations.length > 0) {
+                this.hasAnimation = true;
+              } else {
+                this.hasAnimation = false;
+              }
+            }, 1000); // 🔹 Pequeño retraso para asegurarse de que el modelo se cargue
+          } else {
+            console.log(`No 3D model found for ${this.currentPokemon?.name}`);
+            this.currentPokemon3DModelUrl = null;
+            this.hasAnimation = false;
+          }
+        },
+        error: (err) => {
+          console.log("Error fetching 3D model", err);
+          this.currentPokemon3DModelUrl = null;
+          this.hasAnimation = false;
+          this.pokemon3dModelIsLoading = false;
+        }
+      });
+    }
   }
 
   getPokemonsByEvolutionChain(evolutionChainUrl: string) {
@@ -138,6 +176,23 @@ export class PokemonDetailsComponent {
   onImageLoad(){
     this.isImageLoading = false;
   }
+
+  pauseAnimation() {
+    const modelViewer = document.querySelector('#pokemon-model') as any;
+    if (modelViewer) {
+      modelViewer.pause();
+      console.log('Animación pausada');
+    }
+  }
+  
+  resumeAnimation() {
+    const modelViewer = document.querySelector('#pokemon-model') as any;
+    if (modelViewer) {
+      modelViewer.play();
+      console.log('Animación reanudada');
+    }
+  }
+
 
 }
 
